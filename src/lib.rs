@@ -1,20 +1,3 @@
-/*!
-This crate allows you to send various commands to storage devices, and to interpret the answers.
-
-## Example
-
-```
-use hdd::Device;
-
-let dev = Device::open("/dev/da0").unwrap();
-let (sense, data) = dev.scsi_inquiry(vpd, page).unwrap();
-```
-
-TODO show how to send hand-crafted commands, or how to use porcelain interfaces.
-
-For more, dive into documentation for the module you're interested in.
-*/
-
 #![warn(
 	missing_debug_implementations,
 	// TODO
@@ -31,51 +14,11 @@ For more, dive into documentation for the module you're interested in.
 	unused_qualifications,
 )]
 
-/* XXX
-This lint is here mainly to prevent trait gate method hack from becoming recursive. E.g.:
-
-```
-impl Foo<Bar> {
-	pub fn foo() {}
-}
-
-impl Foo<Baz> {
-	pub fn foo() {}
-}
-
-impl<T> Whatever for Foo<T> {
-	fn foo() { Self::foo() }
-}
-```
-
-If `Foo<X>::foo()` is gone for some reason (usually during refactoring), `Whatever::foo()` will start calling itself, which is definitely not what we want, so this should be a hard error.
-*/
-#![deny(unconditional_recursion)]
-
-#[cfg(feature = "serializable")]
-#[macro_use]
-extern crate serde_derive;
-
 #[macro_use]
 extern crate quick_error;
-
-extern crate log;
 
 #[macro_use]
 extern crate nom;
 extern crate regex;
-extern crate byteorder;
-
-extern crate libc;
-
-/// Data transfer direction
-#[derive(Debug, Clone, Copy)]
-pub enum Direction { None, From, To, Both }
-
-#[cfg(target_os = "freebsd")]
-mod cam;
-
-pub mod ata;
-pub mod scsi;
 
 pub mod drivedb;
