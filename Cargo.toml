@@ -1,11 +1,10 @@
 [package]
-name = "hdd"
-description = "hdd: instruments for querying ATA and SCSI disks"
+name = "drivedb"
+description = "smartmontools drive database parser"
 version = "0.10.0"
 authors = ["vthriller <unixway.drive+rs@gmail.com>"]
-repository = "https://github.com/vthriller/hdd-rs"
+repository = "https://github.com/vthriller/drivedb"
 license = "MPL-2.0"
-readme = "README.md"
 
 [workspace]
 members = ["drivedb-bench"]

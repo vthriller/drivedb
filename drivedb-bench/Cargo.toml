@@ -4,7 +4,7 @@ version = "0.10.0"
 authors = ["vthriller <unixway.drive+rs@gmail.com>"]
 
 [dependencies]
-hdd = { path = ".." }
+drivedb = { path = ".." }
 clap = ">=0.6.6"
 regex = "0.2"
 regex-cache = "0.1.6"
