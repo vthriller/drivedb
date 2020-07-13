@@ -36,7 +36,7 @@ use Direction;
 use Device;
 
 use ata::{ATADevice, RegistersRead, RegistersWrite, Command, SMARTFeature};
-use scsi::{self, SCSIDevice};
+use scsi;
 
 use ata::data::{id, health, attr};
 use drivedb;
@@ -127,11 +127,6 @@ pub trait Misc {
 
 #[cfg(not(target_os = "linux"))]
 impl Misc for ATADevice<Device> {
-	fn ata_do(&self, dir: Direction, regs: &RegistersWrite) -> Result<(RegistersRead, Vec<u8>), Error> {
-		Ok(Self::ata_do(self, dir, regs)?)
-	}
-}
-impl Misc for ATADevice<SCSIDevice> {
 	fn ata_do(&self, dir: Direction, regs: &RegistersWrite) -> Result<(RegistersRead, Vec<u8>), Error> {
 		Ok(Self::ata_do(self, dir, regs)?)
 	}

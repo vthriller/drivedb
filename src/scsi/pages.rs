@@ -7,7 +7,6 @@ The reason why this is implemented as a wrapper type instead of a trait is becau
 
 ```
 use hdd::Device;
-use hdd::scsi::SCSIDevice;
 use hdd::scsi::pages::{Pages, page_name};
 
 ...
@@ -22,7 +21,6 @@ if pages.contains(0x03) {
 */
 
 use scsi;
-use scsi::SCSIDevice;
 use scsi::data::log_page;
 
 extern crate byteorder;

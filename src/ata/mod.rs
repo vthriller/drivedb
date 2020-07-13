@@ -10,7 +10,7 @@ pub mod data;
 pub mod misc;
 
 use Direction;
-use scsi::{self, SCSIDevice};
+use scsi;
 
 #[derive(Debug)]
 pub struct ATADevice<T> {
@@ -53,15 +53,3 @@ One might notice there's no linux support here. There's a couple of reasons for 
 - all HDIO_* ioctls are full of quirks like conditionally pre-filled and masked registers (see Documentation/ioctl/hdio.txt)
 - CONFIG_IDE is disabled for a really long time in modern distros, and support for most of HDIO_* ioctls is absent from libata in favour of issuing ATA commangs through SG_IO, which is already covered in scsi module of this crate
 */
-
-impl ATADevice<SCSIDevice> {
-	ata_do!(scsi::ATAError);
-	fn ata_platform_do(&self, dir: Direction, regs: &RegistersWrite) -> Result<(RegistersRead, Vec<u8>), scsi::ATAError> {
-		self.device.ata_pass_through_16(dir, regs)
-	}
-
-	/// Return the wrapped device. Useful in cases when ATA PASS-THROUGH is used to determine whether this is an ATA device or not.
-	pub fn unwrap(self) -> SCSIDevice {
-		self.device
-	}
-}
