@@ -6,12 +6,6 @@ pub mod key;
 mod descriptor;
 pub use self::descriptor::{Descriptor, DescriptorData};
 
-#[derive(Debug)]
-pub enum Sense<'a> {
-	Fixed(FixedData<'a>),
-	Descriptor(DescriptorData<'a>),
-}
-
 impl<'a> Sense<'a> {
 	/// Returns Key Code Qualifier for a valid sense
 	///

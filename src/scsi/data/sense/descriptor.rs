@@ -1,21 +1,3 @@
-#[derive(Debug)]
-pub struct Descriptor<'a> {
-	/// Descriptor Type
-	pub code: u8,
-	/// Descriptor Specific Data
-	pub data: &'a [u8],
-}
-
-#[derive(Debug)]
-pub struct DescriptorData<'a> {
-	pub key: u8,
-	/// Additional Sense Code
-	pub asc: u8,
-	/// Additional Sense Code Qualifier
-	pub ascq: u8,
-	pub descriptors: Vec<Descriptor<'a>>,
-}
-
 pub fn parse(data: &[u8]) -> Option<DescriptorData> {
 	if data.len() < 8 {
 		return None;

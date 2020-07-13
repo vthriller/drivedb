@@ -3,34 +3,6 @@ pub mod raw;
 use std::collections::HashMap;
 use drivedb;
 
-#[derive(Debug)]
-#[cfg_attr(feature = "serializable", derive(Serialize))]
-pub struct SmartAttribute {
-	pub id: u8,
-
-	pub name: Option<String>, // comes from the drivedb
-
-	pub pre_fail: bool, // if true, failure is predicted within 24h; otherwise, attribute indicates drive's exceeded intended design life period
-	pub online: bool,
-	// In SFF-8035i rev 2, bits 2-5 are defined as vendor-specific, and 6-15 are reserved;
-	// however, these days the following seems to be universally interpreted the way it was once (probably) established by IBM, Maxtor and Quantum
-	pub performance: bool,
-	pub error_rate: bool,
-	pub event_count: bool,
-	pub self_preserving: bool,
-	pub flags: u16,
-
-	// contains None if `raw` is rendered using byte that usually covers this value
-	// TODO? 0x00 | 0xfe | 0xff are invalid
-	pub value: Option<u8>,
-	// contains None if `raw` is rendered using byte that usually covers this value
-	pub worst: Option<u8>,
-
-	pub raw: raw::Raw,
-
-	pub thresh: Option<u8>, // requested separately; TODO? 0x00 is "always passing", 0xff is "always failing", 0xfe is invalid
-}
-
 pub fn parse_smart_values(data: &Vec<u8>, raw_thresh: &Vec<u8>, meta: &Option<drivedb::DriveMeta>) -> Vec<SmartAttribute> {
 	// TODO cover bytes 0..1 362..511 of data
 	// XXX what if some drive reports the same attribute multiple times?

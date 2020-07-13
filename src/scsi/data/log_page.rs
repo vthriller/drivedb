@@ -22,50 +22,6 @@ for param in params {
 
 use byteorder::{ReadBytesExt, BigEndian};
 
-/**
-When devices server should establish a unit attention condition (SAM-4).
-
-Makes no sense for parameters of format other than `Format::BoundedCounter`.
-*/
-#[derive(Debug, Clone, Copy)]
-pub enum Condition {
-	/// Values are never compared.
-	Never,
-	/// Condition is always true.
-	Always,
-	/// Cumulative = Threshold.
-	Eq,
-	/// Cumulative ≠ Threshold.
-	Ne,
-	/// Cumulative > Threshold.
-	Gt,
-}
-
-#[derive(Debug, Clone, Copy)]
-pub enum Format { BoundedCounter, UnboundedCounter, ASCIIList, BinaryList }
-
-#[derive(Debug)]
-pub struct Parameter {
-	pub code: u16,
-	/// Whether cumulative parameter reflects all the events, or is only updated by the LOG SELECT command. For threshold parameters, this should be `false`.
-	pub update_disabled: bool,
-	/// Whether this parameter is implicitly saved at vendor-specific intervals; inverse of the TCD bit. (See also Control Mode Page bit GLTSD.)
-	pub target_save: bool,
-	/// See [enum Condition](enum.Condition.html)
-	pub threshold_comparison: Condition,
-	pub format: Format,
-	pub value: Vec<u8>,
-}
-
-#[derive(Debug)]
-pub struct Page {
-	pub page: u8,
-	pub subpage: Option<u8>,
-	/// Whether this paged is saved if LOG SENSE is executed with SP bit set; inverse of DS log page bit
-	pub saved: bool,
-	pub data: Vec<u8>,
-}
-
 impl Page {
 	// TODO? as iterator (but then, how to deal with invalid pages?)
 	/**

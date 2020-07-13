@@ -12,46 +12,6 @@ pub mod misc;
 use Direction;
 use scsi::{self, SCSIDevice, SCSICommon};
 
-#[derive(Debug, Clone, Copy)]
-pub enum Command {
-	Identify = 0xec,
-	SMART = 0xb0,
-}
-#[derive(Debug, Clone, Copy)]
-pub enum SMARTFeature {
-	ReadValues = 0xd0, // in ATA8-ACS it's called 'SMART READ DATA', which is a bit unclear to people not familiar with ATA… or sometimes even to some who knows ATA well
-	ReadThresholds = 0xd1,
-	ReturnStatus = 0xda,
-}
-
-// data port is omitted for obvious reasons
-#[derive(Debug)]
-pub struct RegistersRead {
-	pub error: u8,
-
-	pub sector_count: u8,
-
-	pub sector: u8, // lba (least significant bits)
-	pub cyl_low: u8, // lba
-	pub cyl_high: u8, // lba
-	pub device: u8, // lba (most significant bits); aka drive/head, device/head, select
-
-	pub status: u8,
-}
-#[derive(Debug)]
-pub struct RegistersWrite {
-	pub features: u8,
-
-	pub sector_count: u8,
-
-	pub sector: u8,
-	pub cyl_low: u8,
-	pub cyl_high: u8,
-	pub device: u8,
-
-	pub command: u8,
-}
-
 #[derive(Debug)]
 pub struct ATADevice<T> {
 	device: T,

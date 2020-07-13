@@ -12,23 +12,6 @@ fn read(data: &[u8], bits: usize) -> u64 {
 	out
 }
 
-#[derive(Debug)]
-#[cfg_attr(feature = "serializable", derive(Serialize))]
-pub enum Raw {
-	Raw8(Vec<u8>),
-	Raw16(Vec<u16>),
-	Raw64(u64),
-	Raw16opt16(u16, Option<Vec<u16>>),
-	Raw16avg16 { value: u16, average: u16 },
-	Raw24opt8(u32, Option<Vec<u8>>),
-	Raw24div(u32, u32),
-	Minutes(u64),
-	Seconds(u64),
-	HoursMilliseconds(u32, u32),
-	Celsius(f32),
-	CelsiusMinMax { current: u8, min: u8, max: u8 },
-}
-
 fn write_vec<T>(f: &mut fmt::Formatter, vec: &Vec<T>) -> fmt::Result
 where T: fmt::Display {
 	let mut values = vec.iter();

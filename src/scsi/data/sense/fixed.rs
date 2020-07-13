@@ -1,30 +1,3 @@
-#[derive(Debug)]
-pub enum FixedData<'a> {
-	Valid {
-		/// Used in SSC-2 READ and SPACE commands
-		file_mark: bool,
-		/// End of Medium; used in SSC-2 READ, SPACE, and WRITE commands
-		eom: bool,
-		/// Used in SBC-2 READ LONG, SBC-2 WRITE LONG, and SSC-2 READ commands
-		incorrect_length: bool,
-		key: u8,
-		info: [u8; 4],
-		/// Command-Specific Information
-		cmd_info: [u8; 4],
-		/// Additional Sense Code
-		asc: u8,
-		/// Additional Sense Code Qualifier
-		ascq: u8,
-		/// Field Replaceable Unit Code
-		fruc: u8,
-		/// Sense Key Specific (including the Sense Key Specific Valid leading bit)
-		sks: [u8; 3],
-		/// Additional Sense Bytes
-		more: &'a [u8],
-	},
-	Invalid(&'a [u8]),
-}
-
 fn copy_from_slice_3(x: &[u8]) -> [u8; 3] {
 	let mut y = [0; 3];
 	y.copy_from_slice(x);

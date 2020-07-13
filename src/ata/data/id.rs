@@ -13,12 +13,6 @@ fn read_string(arr: &Vec<u16>, start: usize, fin: usize) -> String {
 	String::from(output.trim())
 }
 
-#[derive(PartialEq, Eq, Debug, Clone, Copy)]
-#[cfg_attr(feature = "serializable", derive(Serialize))]
-pub enum Ternary {
-	Unsupported, Disabled, Enabled
-}
-
 impl fmt::Display for Ternary {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 		match self {
@@ -27,66 +21,6 @@ impl fmt::Display for Ternary {
 			Ternary::Enabled     => write!(f, "supported, enabled"),
 		}
 	}
-}
-
-#[derive(Debug)]
-#[cfg_attr(feature = "serializable", derive(Serialize))]
-pub enum RPM {
-	Unknown, NonRotating, RPM(u16)
-}
-
-#[derive(Debug)]
-#[cfg_attr(feature = "serializable", derive(Serialize))]
-pub struct IdCommands {
-	pub device_reset: bool,
-	pub write_buffer: bool,
-	pub read_buffer: bool,
-	pub nop:  bool,
-	pub download_microcode: bool,
-	pub read_write_dma_queued: bool,
-	pub flush_cache: bool,
-	pub flush_cache_ext: bool,
-	pub write_dma_fua_ext: bool, // also WRITE MULTIPLE FUA EXT
-	pub write_dma_queued_fua_ext: bool,
-	pub write_uncorrectable: bool,
-	pub read_write_dma_ext_gpl: bool,
-}
-
-#[derive(Debug)]
-#[cfg_attr(feature = "serializable", derive(Serialize))]
-pub struct Id {
-	pub is_ata: bool, // probably redundant
-	pub incomplete: bool, // content of words other that 0 or 2 might be invalid
-
-	pub serial: String,
-	pub firmware: String,
-	pub model: String,
-
-	pub capacity: u64,
-	pub sector_size_phy: u32,
-	pub sector_size_log: u32,
-
-	pub rpm: RPM,
-
-	pub trusted_computing_supported: bool,
-
-	pub ata_version: Option<&'static str>,
-
-	pub commands_supported: IdCommands,
-
-	pub power_mgmt_supported: bool,
-	pub write_cache: Ternary,
-	pub read_look_ahead: Ternary,
-	pub hpa: Ternary, // Host Protected Area
-	pub apm: Ternary, // Advanced Power Management
-	pub aam: Ternary, // Automatic Acoustic Management
-	pub gp_logging_supported: bool, // General Purpose Logging
-	pub wwn_supported: bool, // World Wide Name
-	pub security: Ternary,
-
-	pub smart: Ternary,
-	pub smart_error_logging_supported: bool,
-	pub smart_self_test_supported: bool,
 }
 
 fn is_set(word: u16, bit: usize) -> bool {

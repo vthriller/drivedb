@@ -50,58 +50,6 @@ pub enum ErrorCounter {
 	Reserved(u16),
 }
 
-#[derive(Debug)]
-pub struct Date {
-	// TODO u8, u16
-	pub week: String,
-	pub year: String,
-}
-
-#[derive(Debug)]
-pub struct DatesAndCycleCounters {
-	pub manufacturing_date:	Option<Date>,
-	/// Date in which the device was placed in service
-	pub accounting_date:	Option<Date>,
-	pub lifetime_start_stop_cycles:	Option<u32>,
-	pub start_stop_cycles:	Option<u32>,
-	pub lifetime_load_unload_cycles:	Option<u32>,
-	pub load_unload_cycles:	Option<u32>,
-}
-
-#[derive(Debug)]
-pub enum SelfTestResult {
-	NoError,
-	Aborted { explicitly: bool },
-	UnknownError,
-	// XXX don't bother with distinguishing segments in which self-test failed …yet
-	Failed,
-	InProgress,
-	Reserved(u8),
-}
-
-#[derive(Debug)]
-pub struct SelfTest {
-	pub result: SelfTestResult,
-	pub code: u8,
-	pub number: u8,
-	/// saturated value (i.e. `0xffff` really means `>= 0xffff`)
-	pub power_on_hours: u16,
-	pub first_failure_lba: u64,
-	pub sense_key: u8,
-	pub sense_asc: u8,
-	pub sense_ascq: u8,
-	pub vendor_specific: u8,
-}
-
-#[derive(Debug)]
-pub struct InformationalException {
-	pub asc: u8,
-	pub ascq: u8,
-	/// Bottom-saturated (i.e. values less than 0 are represented as 0) temperature, in °C, with an accuracy of ±3°C
-	pub recent_temperature_reading: Option<u8>,
-	pub vendor_specific: Vec<u8>,
-}
-
 /// For a given page number `page`, return its name
 pub fn page_name(page: u8) -> &'static str {
 	match page {

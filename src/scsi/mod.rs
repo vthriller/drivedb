@@ -103,25 +103,6 @@ impl SCSIDevice {
 	}
 }
 
-// TODO pub? see read_defect_data_*()
-#[derive(Debug)]
-enum AddrDescriptorFormat {
-	ShortBlock = 0b000,
-	LongBlock = 0b011,
-	BytesFromIndex = 0b100,
-	PhysSector = 0b101,
-	VendorSpecific = 0b110,
-	// others are reserved
-}
-
-#[derive(Debug, PartialEq)]
-pub enum DefectList {
-	Primary,
-	Grown,
-	Both,
-	// why would anyone send READ DEFECT DATA with req_{p,g}list set to 0?
-}
-
 // TODO look for non-empty autosense and turn it into errors where appropriate
 pub trait SCSICommon: Sized {
 	// XXX DRY
