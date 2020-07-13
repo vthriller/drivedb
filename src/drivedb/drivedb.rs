@@ -3,6 +3,7 @@ use super::parser::Entry;
 use regex;
 use regex::bytes::{RegexSet, RegexSetBuilder};
 use std::collections::HashSet;
+use super::vendor_attribute::Type;
 
 use ata::data::id;
 
@@ -78,7 +79,7 @@ impl DriveDB {
 	Return value is a merge between the default entry and the first match; if multiple entries match the `id`, the first one is used (this is consistent with smartmontools' `lookup_drive` function).
 	`extra_attributes` are also appended to the list of presets afterwards.
 	*/
-	pub fn render_meta(&self, id: &id::Id, extra_attributes: &Vec<Attribute>) -> DriveMeta {
+	pub fn render_meta(&self, model: &str, firmware: &str, drivetype: Option<Type>, extra_attributes: &Vec<Attribute>) -> DriveMeta {
 		let mut m = DriveMeta {
 			family: None,
 			warning: None,
@@ -93,7 +94,7 @@ impl DriveDB {
 			}
 		}
 
-		if let Some(entry) = self.find(&id.model, &id.firmware) {
+		if let Some(entry) = self.find(model, firmware) {
 			// TODO show somehow whether preset is valid or not
 			if let Some(presets) = presets::parse(&entry.presets) {
 				m.presets.extend(presets);
@@ -104,21 +105,12 @@ impl DriveDB {
 		}
 
 		m.presets.extend(extra_attributes.iter().map(|a| a.clone()));
-		m.presets = filter_presets(id, m.presets);
+		m.presets = filter_presets(drivetype, m.presets);
 		return m;
 	}
 }
 
-fn filter_presets(id: &id::Id, preset: Vec<Attribute>) -> Vec<Attribute> {
-	let drivetype = {
-		use super::vendor_attribute::Type::*;
-		match id.rpm {
-			RPM(_) => Some(HDD),
-			NonRotating => Some(SSD),
-			Unknown => None,
-		}
-	};
-
+fn filter_presets(drivetype: Option<Type>, preset: Vec<Attribute>) -> Vec<Attribute> {
 	#[cfg_attr(feature = "cargo-clippy", allow(match_same_arms))]
 	preset.into_iter().filter(|attr| match (attr.drivetype, drivetype) {
 		// this attribute is not type-specific
