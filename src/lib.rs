@@ -5,7 +5,7 @@ This crate allows you to send various commands to storage devices, and to interp
 
 ```
 use hdd::Device;
-use hdd::scsi::{SCSIDevice, SCSICommon};
+use hdd::scsi::SCSIDevice;
 
 let dev = Device::open("/dev/da0").unwrap();
 let (sense, data) = dev.scsi_inquiry(vpd, page).unwrap();

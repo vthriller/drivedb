@@ -22,7 +22,7 @@ if pages.contains(0x03) {
 */
 
 use scsi;
-use scsi::{SCSIDevice, SCSICommon};
+use scsi::SCSIDevice;
 use scsi::data::log_page;
 
 extern crate byteorder;

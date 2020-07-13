@@ -10,7 +10,7 @@ pub mod data;
 pub mod misc;
 
 use Direction;
-use scsi::{self, SCSIDevice, SCSICommon};
+use scsi::{self, SCSIDevice};
 
 #[derive(Debug)]
 pub struct ATADevice<T> {
