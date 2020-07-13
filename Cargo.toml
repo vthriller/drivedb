@@ -25,6 +25,3 @@ serde_derive = { version = "0.9", optional = true }
 [features]
 default = []
 serializable = ["serde", "serde_derive"]
-
-[target.'cfg(target_os = "freebsd")'.build-dependencies]
-bindgen = "0.31.0"
