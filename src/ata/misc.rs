@@ -30,16 +30,10 @@ match id.smart {
 ```
 */
 
-use Direction;
-
 #[cfg(not(target_os = "linux"))]
 use Device;
 
-use ata::ATADevice;
 use scsi;
-
-use ata::data::{id, health, attr};
-use drivedb;
 
 use std::io;
 

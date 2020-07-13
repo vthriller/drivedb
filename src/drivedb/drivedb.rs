@@ -5,8 +5,6 @@ use regex::bytes::{RegexSet, RegexSetBuilder};
 use std::collections::HashSet;
 use super::vendor_attribute::Type;
 
-use ata::data::id;
-
 /**
 Drive database that hosts its entries and allows to search for relevant data.
 

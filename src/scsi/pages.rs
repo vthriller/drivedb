@@ -21,12 +21,8 @@ if pages.contains(0x03) {
 */
 
 use scsi;
-use scsi::data::log_page;
 
 extern crate byteorder;
-use byteorder::{ReadBytesExt, BigEndian};
-
-use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum ErrorCounter {
