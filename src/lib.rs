@@ -74,9 +74,6 @@ extern crate libc;
 #[derive(Debug, Clone, Copy)]
 pub enum Direction { None, From, To, Both }
 
-pub mod device;
-pub use device::*;
-
 #[cfg(target_os = "freebsd")]
 mod cam;
 
