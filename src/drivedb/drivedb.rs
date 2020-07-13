@@ -111,7 +111,6 @@ impl DriveDB {
 
 fn filter_presets(id: &id::Id, preset: Vec<Attribute>) -> Vec<Attribute> {
 	let drivetype = {
-		use self::id::RPM::*;
 		use super::vendor_attribute::Type::*;
 		match id.rpm {
 			RPM(_) => Some(HDD),

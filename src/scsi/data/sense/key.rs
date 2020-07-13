@@ -1,35 +1,3 @@
-impl SenseKey {
-	/**
-	Returns `SenseKey` for a given numeric sense key.
-
-	## Panics
-
-	This function panics if value of `key` cannot be represented using just 4 bits.
-	*/
-	pub fn from(key: u8) -> SenseKey {
-		use self::SenseKey::*;
-		match key {
-			0 => Ok,
-			1 => Recovered,
-			2 => NotReady,
-			3 => MediumError,
-			4 => HardwareError,
-			5 => IllegalRequest,
-			6 => UnitAttention,
-			7 => DataProtect,
-			8 => BlankCheck,
-			9 => VendorSpecific,
-			10 => AbortedCopy,
-			11 => AbortedCommand,
-			12 => Reserved,
-			13 => VolumeOverflow,
-			14 => Miscompare,
-			15 => Completed,
-			_ => panic!("invalid sense key value"),
-		}
-	}
-}
-
 // Enums? *Nested enums*? Who would even want to match against them?
 // Sure these pairs could be grouped easily, but for now for commands that really expect some specific ASC/ASCQs it's easier to match them directly against that expected subset of values.
 /// Gives textual description for a pair of Additional Sense Code values, as found in SPC-4, 4.5.6, table 44
