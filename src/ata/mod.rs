@@ -6,7 +6,6 @@ All things ATA.
 * Import traits from porcelain modules (currently that's just [`misc`](misc/index.html)) to do typical tasks without needing to compose commands and parse responses yourself.
 */
 
-pub mod data;
 pub mod misc;
 
 #[derive(Debug)]

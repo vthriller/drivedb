@@ -6,7 +6,6 @@ All things SCSI.
   * You can also use [`module ata`](../ata/index.html) to issue ATA commands using ATA PASS-THROUGH.
 */
 
-pub mod data;
 pub mod pages;
 
 use std::io;
