@@ -10,12 +10,6 @@ All things SCSI.
 pub mod data;
 pub mod pages;
 
-#[cfg(target_os = "linux")]
-mod linux;
-
-#[cfg(target_os = "freebsd")]
-mod freebsd;
-
 use std::io;
 use ata;
 use byteorder::{ReadBytesExt, BigEndian};
