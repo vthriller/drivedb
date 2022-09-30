@@ -82,7 +82,7 @@ impl Loader {
 	- drive database is malformed.
 	*/
 	pub fn load_additional(&mut self, file: &str) -> Result<(), Error> {
-		self.entries = load(file)?;
+		self.additional.append(&mut load(file)?);
 		Ok(())
 	}
 	/// Returns actual drive database with all entries loaded beforehand.
