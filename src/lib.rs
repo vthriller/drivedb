@@ -4,15 +4,21 @@ Use this module to match hard drive and SMART values it returns against smartmon
 ## Example
 
 ```
-use hdd::drivedb::{Loader, vendor_attribute};
+use drivedb::{
+	Loader,
+	Type,
+	vendor_attribute,
+};
 
-let loader = Loader::new();
+# fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+let mut loader = Loader::new();
 // look for version updated with `update-smart-drivedb(8)` first
 loader.load("/var/lib/smartmontools/drivedb/drivedb.h")
-	.or_else(|| loader.load("/usr/share/smartmontools/drivedb.h"))?;
+	.or_else(|_| loader.load("/usr/share/smartmontools/drivedb.h"))?;
 // `?` is optional though: if nothing can be loaded, loader will still provide dummy db for us
 
-let db = loader.db();
+let db = loader.db()?;
 
 // extra attribute definitions that user might give
 let user_attributes = vec!["9,minutes"]
@@ -20,20 +26,24 @@ let user_attributes = vec!["9,minutes"]
 	.map(|attr| vendor_attribute::parse(attr).unwrap())
 	.collect();
 
-// TODO: issue ATA IDENTIFY DEVICE cmd and parse the answer here
-let id = unimplemented!();
+let model = "ST3000DM001-9YN166";
+let firmware = "CC24";
+let drivetype = Some(Type::HDD);
 
-let meta = db.render_meta(&id, &user_attributes);
+let meta = db.render_meta(&model, &firmware, drivetype, &user_attributes);
 
-if let Some(warn) = meta.warning {
-	println!("WARNING: {}", warn);
-}
+assert!(meta.warning.is_some());
+assert!(meta.warning.unwrap().starts_with("A firmware update for this drive may be available"));
 
-if let Some(attr) = meta.render_attribute(9) {
-	if let Some(name) = attr.name {
-		println!("Attribute 9 is named {}", name);
-	}
-}
+let attr = meta.render_attribute(9).unwrap();
+assert_eq!(attr.id, Some(9));
+assert_eq!(attr.name, Some("Power_On_Minutes".to_string()));
+assert_eq!(attr.format, "min2hour".to_string());
+assert_eq!(attr.byte_order, "543210".to_string());
+assert_eq!(attr.drivetype, None);
+
+# Ok(())
+# }
 ```
 */
 
@@ -60,6 +70,6 @@ mod presets;
 mod drivedb;
 mod loader;
 pub mod vendor_attribute;
-pub use self::vendor_attribute::Attribute;
+pub use self::vendor_attribute::{Attribute, Type};
 pub use self::drivedb::{DriveDB, DriveMeta};
 pub use self::loader::{Loader, Error};
