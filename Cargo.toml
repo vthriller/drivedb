@@ -1,7 +1,7 @@
 [package]
 name = "drivedb"
 description = "smartmontools drive database parser"
-version = "0.10.0"
+version = "0.11.0"
 authors = ["vthriller <unixway.drive+rs@gmail.com>"]
 repository = "https://github.com/vthriller/drivedb"
 license = "MPL-2.0"
