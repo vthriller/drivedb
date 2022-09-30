@@ -15,6 +15,7 @@ use nom::digit;
 
 quick_error! {
 	#[derive(Debug)]
+	#[allow(missing_docs)] // self-explanatory
 	pub enum Error {
 		Parse {
 			// TODO? Parse(nom::verbose_errors::Err) if dependencies.nom.features = ["verbose-errors"]
@@ -25,6 +26,7 @@ quick_error! {
 
 /// HDD or SSD
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[allow(missing_docs)] // self-explanatory enum variants
 pub enum Type { HDD, SSD }
 
 /// SMART attribute description

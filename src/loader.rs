@@ -11,6 +11,7 @@ use regex; // for Loader.db() error type
 
 quick_error! {
 	#[derive(Debug)]
+	#[allow(missing_docs)] // self-explanatory
 	pub enum Error {
 		IO(err: io::Error) {
 			from()

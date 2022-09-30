@@ -1,5 +1,5 @@
 /*!
-Use this module to match hard drive and SMART values it returns against smartmontools database.
+Use this crate to match hard drive and SMART values it returns against smartmontools database.
 
 ## Example
 
